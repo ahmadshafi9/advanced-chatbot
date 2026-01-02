@@ -1,74 +1,91 @@
-.parent-container {
-    display: flex;
-    /* flex-direction: row; */ 
-    background-color: lightgrey;
-    align-items: stretch;
-}
-.rest {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    height: 100vh;
-    
-}
-.input {
-    position: fixed;
-    flex: 1;
-    height: 5vh;
-    width: 80%;
-    border: 1 solid;
-    border-radius: 16px;
-    bottom: 0;
-}
-.chat {
-    flex: 1;
-    flex-direction: column;
-    background-color: lightgray;
-    border-radius: 16px;
-}
-.chatUser {
-    display: flex;
-    border-radius: 16px;
+'use client';
+import "./styles.css";
+import { useChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+import { useState } from 'react';
 
-    
-}
-.chatAI {
-    display: flex;
-    justify-content: center;
-    background-color: darkgrey;
-    border-radius: 16px;
-}
+export default function Page() {
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({
+      api: '/api/chat',
+    }),
+  });
+  const [input, setInput] = useState('');
 
-
-.submit {
-    position: fixed;
-    width: 10%;
-    border: 1 solid;
-    flex-wrap: wrap;
-    left: 90%;
-    bottom: 0vh;
-    height: 5vh;
-    border-radius: 16px;
-    font-size: large;
-    background-image: url('../submit.jpg');
-    background-size: cover;      /* scales image to fill container */
-    background-position: center; /* centers the image */
-    background-repeat: no-repeat;/* prevents tiling */
-
-}
-
-.history {
-    flex-direction: column;
-    background-color:  darkgrey;
-    width: 10%;
-    height: 100vh;
-    font-family: 'Open Sans', sans-serif;
-    border-radius: 8px;
-    font-size: auto;
-    overflow: hidden;
-}
-
-.thinking {
-    font-size: large;
-
+  return (
+    <div className='parent-container'>
+      <div className="history">
+        <p>last thing u searched</p>
+        <p>2nd last thing u searched</p>
+        <p>2nd last thing u searched</p>
+        <p>3rd last thing u searched</p>
+        <p>4th last thing u searched</p>
+        <p>5th last thing u searched</p>
+        <p>6th last thing u searched</p>
+        <p>7th last thing u searched</p>
+        <p>8th last thing u searched</p>
+        <p>9th last thing u searched</p>
+        <p>10th last thing u searched</p>
+        <p>11th last thing u searched</p>
+        <p>12th last thing u searched</p>
+        <p>13th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+        <p>14th last thing u searched</p>
+      </div>
+      <div className="rest">
+        <div className="chat">
+          {messages.map(message => (
+            <div className={message.role == "user" ? "chatUser" : "chatAI"}
+              key={message.id}>
+              {message.role === 'user' ? <>User:{"  "}</> : <>AI:{"   "}</>}
+              {message.parts.map((part, index) =>
+                part.type === 'text' ? <span key={index}>{part.text}</span> : null,
+              )}
+            </div>
+          ))}
+          {status === 'submitted' && (
+            <div className="chatAI thinking">
+              <span>AI:   </span>
+              <div className="spinner"></div>
+              <span className="thinking-text">thinking...</span>
+            </div>
+          )}
+        </div>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            if (input.trim()) {
+              sendMessage({ text: ' ' + input });
+              setInput('');
+            }
+          }}
+        >
+          <input
+            className="input"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            disabled={status !== 'ready'}
+            placeholder="Say something..."
+          />
+          <div className="submit">
+            <button type="submit" disabled={status !== 'ready'}>
+              {status === 'submitted' && <div className="submit-spinner"></div>}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
