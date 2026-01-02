@@ -1,5 +1,4 @@
 'use client';
-
 import "./styles.css";
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
@@ -13,18 +12,7 @@ export default function Page() {
   });
   const [input, setInput] = useState('');
 
-  switch (status) {
-    case 'submitted':
-      return <div className="thinking">
-        thinking...
-      </div>
-    default:
-
-  
-
-
   return (
-
     <div className='parent-container'>
       <div className="history">
         <p>last thing u searched</p>
@@ -58,21 +46,24 @@ export default function Page() {
       </div>
       <div className="rest">
         <div className="chat">
-
           {messages.map(message => (
-
             <div className={message.role == "user" ? "chatUser" : "chatAI"}
               key={message.id}>
               {message.role === 'user' ? <>User:{"  "}</> : <>AI:{"   "}</>}
-
               {message.parts.map((part, index) =>
                 part.type === 'text' ? <span key={index}>{part.text}</span> : null,
               )}
             </div>
           ))}
+          {status === 'submitted' && (
+            <div className="chatAI thinking">
+              <span>AI:   </span>
+              <div className="spinner"></div>
+              <span className="thinking-text">thinking...</span>
+            </div>
+          )}
         </div>
         <form
-
           onSubmit={e => {
             e.preventDefault();
             if (input.trim()) {
@@ -81,29 +72,20 @@ export default function Page() {
             }
           }}
         >
-
           <input
             className="input"
             value={input}
             onChange={e => setInput(e.target.value)}
             disabled={status !== 'ready'}
-            //div classname input
             placeholder="Say something..."
-          //div
           />
-
-
           <div className="submit">
             <button type="submit" disabled={status !== 'ready'}>
-
+              {status === 'submitted' && <div className="submit-spinner"></div>}
             </button>
-
           </div>
-
         </form>
       </div>
     </div>
-
   );
-}
 }
