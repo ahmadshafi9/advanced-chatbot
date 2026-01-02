@@ -1,0 +1,74 @@
+.parent-container {
+    display: flex;
+    /* flex-direction: row; */ 
+    background-color: lightgrey;
+    align-items: stretch;
+}
+.rest {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 100vh;
+    
+}
+.input {
+    position: fixed;
+    flex: 1;
+    height: 5vh;
+    width: 80%;
+    border: 1 solid;
+    border-radius: 16px;
+    bottom: 0;
+}
+.chat {
+    flex: 1;
+    flex-direction: column;
+    background-color: lightgray;
+    border-radius: 16px;
+}
+.chatUser {
+    display: flex;
+    border-radius: 16px;
+
+    
+}
+.chatAI {
+    display: flex;
+    justify-content: center;
+    background-color: darkgrey;
+    border-radius: 16px;
+}
+
+
+.submit {
+    position: fixed;
+    width: 10%;
+    border: 1 solid;
+    flex-wrap: wrap;
+    left: 90%;
+    bottom: 0vh;
+    height: 5vh;
+    border-radius: 16px;
+    font-size: large;
+    background-image: url('../submit.jpg');
+    background-size: cover;      /* scales image to fill container */
+    background-position: center; /* centers the image */
+    background-repeat: no-repeat;/* prevents tiling */
+
+}
+
+.history {
+    flex-direction: column;
+    background-color:  darkgrey;
+    width: 10%;
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+    border-radius: 8px;
+    font-size: auto;
+    overflow: hidden;
+}
+
+.thinking {
+    font-size: large;
+
+}
